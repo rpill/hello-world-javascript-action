@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "ncc build index.js"
+    "build": "ncc build index.js -m"
   },
   "repository": {
     "type": "git",
