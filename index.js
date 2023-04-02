@@ -1,5 +1,5 @@
 import core from '@actions/core';
-import github from '@actions/github';
+// import github from '@actions/github';
 import exec from '@actions/exec';
 
 // const mapping = {
@@ -23,7 +23,7 @@ const runTests = async () => {
 }
 
 try {
-  runTests(params);
+  await runTests(params);
 } catch (e) {
   core.error('Tests failed');
   throw e;
