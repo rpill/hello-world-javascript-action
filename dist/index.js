@@ -4033,7 +4033,7 @@ const runTests = async () => {
 }
 
 try {
-  await runTests(params);
+  await runTests();
 } catch (e) {
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.error('Tests failed');
   throw e;

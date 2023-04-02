@@ -23,7 +23,7 @@ const runTests = async () => {
 }
 
 try {
-  await runTests(params);
+  await runTests();
 } catch (e) {
   core.error('Tests failed');
   throw e;
