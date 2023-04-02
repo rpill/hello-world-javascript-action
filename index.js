@@ -1,6 +1,8 @@
 import core from '@actions/core';
 // import github from '@actions/github';
 import exec from '@actions/exec';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 // const mapping = {
 //   'express-mesto-13': {
@@ -10,6 +12,9 @@ import exec from '@actions/exec';
 
 const runTests = async () => {
   try {
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    console.log(__dirname);
+    console.log(process.cwd());
     const projectName = core.getInput('project', { required: true });
     const projectPath = process.cwd();
     const cmdOptions = { cwd: projectPath };

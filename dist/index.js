@@ -3995,6 +3995,13 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("tls");
 
 /***/ }),
 
+/***/ 310:
+/***/ ((module) => {
+
+module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("url");
+
+/***/ }),
+
 /***/ 837:
 /***/ ((module) => {
 
@@ -4008,8 +4015,12 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util");
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(186);
 /* harmony import */ var _actions_exec__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(514);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(17);
+/* harmony import */ var url__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(310);
 
 // import github from '@actions/github';
+
+
 
 
 // const mapping = {
@@ -4020,6 +4031,9 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 const runTests = async () => {
   try {
+    const __dirname = (0,path__WEBPACK_IMPORTED_MODULE_2__.dirname)((0,url__WEBPACK_IMPORTED_MODULE_3__.fileURLToPath)(import.meta.url));
+    console.log(__dirname);
+    console.log(process.cwd());
     const projectName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('project', { required: true });
     const projectPath = process.cwd();
     const cmdOptions = { cwd: projectPath };
