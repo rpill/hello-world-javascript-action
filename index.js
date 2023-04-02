@@ -8,7 +8,7 @@ import exec from '@actions/exec';
 //   }
 // }
 
-const runTest = async () => {
+const runTests = async () => {
   try {
     const projectName = core.getInput('project', { required: true });
     const projectPath = process.cwd();
