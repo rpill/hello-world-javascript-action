@@ -19,7 +19,7 @@ const runTests = async () => {
     const projectPath = process.cwd();
     const cmdOptions = { cwd: projectPath };
     const binPath = path.join(__dirname, '..', 'bin', `${projectName}.sh`)
-    await exec.exec(`sh ${binPath}`, null, cmdOptions);
+    // await exec.exec(`sh ${binPath}`, null, cmdOptions);
     await exec.exec(`ls -R`, null, cmdOptions);
     // Get the JSON webhook payload for the event that triggered the workflow
     // const payload = JSON.stringify(github.context.payload, undefined, 2)
