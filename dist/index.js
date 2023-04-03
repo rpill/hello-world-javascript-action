@@ -4037,8 +4037,8 @@ const runTests = async () => {
     const projectName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('project', { required: true });
     const projectPath = process.cwd();
     const cmdOptions = { cwd: projectPath };
-    await _actions_exec__WEBPACK_IMPORTED_MODULE_1__.exec(`ls -la`, null, { cwd: '../' });
-    await _actions_exec__WEBPACK_IMPORTED_MODULE_1__.exec(`sh ../../bin/${projectName}.sh`, null, cmdOptions);
+    await _actions_exec__WEBPACK_IMPORTED_MODULE_1__.exec(`ls -R`, null, { cwd: path__WEBPACK_IMPORTED_MODULE_2__.join(__dirname, '..', '..') });
+    // await exec.exec(`sh ../../bin/${projectName}.sh`, null, cmdOptions);
     // Get the JSON webhook payload for the event that triggered the workflow
     // const payload = JSON.stringify(github.context.payload, undefined, 2)
     // console.log(`The event payload: ${payload}`);
