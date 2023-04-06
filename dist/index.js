@@ -4156,7 +4156,7 @@ const prepareProject = async (options) => {
   await _actions_io__WEBPACK_IMPORTED_MODULE_2__.mkdirP(projectSourcePath);
   const pullCmd = `docker pull ${projectImageName}"`;
   await _actions_exec__WEBPACK_IMPORTED_MODULE_3__.exec(pullCmd, null, cmdOptions);
-  const copyCmd = `docker run -v ${mountPath}:/mnt ${projectImageName} bash -c "cp -r /project/. /mnt/source"`;
+  const copyCmd = `docker run -v ${mountPath}:/mnt ${projectImageName} bash -c "cp -r /project/. /mnt/source && rm -rf /mnt/source/code"`;
   await _actions_exec__WEBPACK_IMPORTED_MODULE_3__.exec(copyCmd, null, cmdOptions);
   await _actions_io__WEBPACK_IMPORTED_MODULE_2__.mkdirP(projectCodePath);
   await _actions_io__WEBPACK_IMPORTED_MODULE_2__.cp(`${projectPath}/.`, projectCodePath, { recursive: true });

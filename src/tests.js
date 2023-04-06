@@ -17,7 +17,7 @@ const prepareProject = async (options) => {
   await io.mkdirP(projectSourcePath);
   const pullCmd = `docker pull ${projectImageName}"`;
   await exec.exec(pullCmd, null, cmdOptions);
-  const copyCmd = `docker run -v ${mountPath}:/mnt ${projectImageName} bash -c "cp -r /project/. /mnt/source"`;
+  const copyCmd = `docker run -v ${mountPath}:/mnt ${projectImageName} bash -c "cp -r /project/. /mnt/source && rm -rf /mnt/source/code"`;
   await exec.exec(copyCmd, null, cmdOptions);
   await io.mkdirP(projectCodePath);
   await io.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
