@@ -2677,6 +2677,14 @@ exports["default"] = _default;
 
 /***/ }),
 
+/***/ 439:
+/***/ ((module) => {
+
+module.exports = eval("require")("clean-stack");
+
+
+/***/ }),
+
 /***/ 21:
 /***/ ((module) => {
 
@@ -2762,101 +2770,13 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("util");
 
 /***/ }),
 
-/***/ 938:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
-
-
-// EXPORTS
-__nccwpck_require__.d(__webpack_exports__, {
-  "Z": () => (/* binding */ cleanStack)
-});
-
-;// CONCATENATED MODULE: ./node_modules/escape-string-regexp/index.js
-function escapeStringRegexp(string) {
-	if (typeof string !== 'string') {
-		throw new TypeError('Expected a string');
-	}
-
-	// Escape characters with special meaning either inside or outside character sets.
-	// Use a simple backslash escape when it’s always valid, and a `\xnn` escape when the simpler form would be disallowed by Unicode patterns’ stricter grammar.
-	return string
-		.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-		.replace(/-/g, '\\x2d');
-}
-
-;// CONCATENATED MODULE: external "node:os"
-const external_node_os_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:os");
-;// CONCATENATED MODULE: ./node_modules/clean-stack/home-directory.js
-
-
-const getHomeDirectory = () => external_node_os_namespaceObject.homedir().replace(/\\/g, '/');
-
-/* harmony default export */ const home_directory = (getHomeDirectory);
-
-;// CONCATENATED MODULE: ./node_modules/clean-stack/index.js
-
-
-
-const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
-const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
-
-function cleanStack(stack, {pretty = false, basePath, pathFilter} = {}) {
-	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
-	const homeDirectory = pretty ? home_directory() : '';
-
-	if (typeof stack !== 'string') {
-		return undefined;
-	}
-
-	return stack.replace(/\\/g, '/')
-		.split('\n')
-		.filter(line => {
-			const pathMatches = line.match(extractPathRegex);
-			if (pathMatches === null || !pathMatches[1]) {
-				return true;
-			}
-
-			const match = pathMatches[1];
-
-			// Electron
-			if (
-				match.includes('.app/Contents/Resources/electron.asar')
-				|| match.includes('.app/Contents/Resources/default_app.asar')
-				|| match.includes('node_modules/electron/dist/resources/electron.asar')
-				|| match.includes('node_modules/electron/dist/resources/default_app.asar')
-			) {
-				return false;
-			}
-
-			return pathFilter
-				? !pathRegex.test(match) && pathFilter(match)
-				: !pathRegex.test(match);
-		})
-		.filter(line => line.trim() !== '')
-		.map(line => {
-			if (basePathRegex) {
-				line = line.replace(basePathRegex, '');
-			}
-
-			if (pretty) {
-				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDirectory, '~')));
-			}
-
-			return line;
-		})
-		.join('\n');
-}
-
-
-/***/ }),
-
 /***/ 633:
 /***/ ((__webpack_module__, __unused_webpack___webpack_exports__, __nccwpck_require__) => {
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(17);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(186);
-/* harmony import */ var clean_stack__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(938);
+/* harmony import */ var clean_stack__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(439);
 /* harmony import */ var tests_js__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(21);
 
 
@@ -2879,7 +2799,7 @@ try {
 } catch (e) {
   _actions_core__WEBPACK_IMPORTED_MODULE_1__.error('Исправьте ошибки');
   if (!verbose) {
-    e.stack = (0,clean_stack__WEBPACK_IMPORTED_MODULE_2__/* ["default"] */ .Z)(e.stack);
+    e.stack = clean_stack__WEBPACK_IMPORTED_MODULE_2__(e.stack);
   }
   throw e;
 }
@@ -2988,23 +2908,6 @@ __webpack_async_result__();
 /******/ 		}, (err) => ((err ? reject(promise[webpackError] = err) : outerResolve(exports)), resolveQueue(queue)));
 /******/ 		queue && (queue.d = 0);
 /******/ 	};
-/******/ })();
-/******/ 
-/******/ /* webpack/runtime/define property getters */
-/******/ (() => {
-/******/ 	// define getter functions for harmony exports
-/******/ 	__nccwpck_require__.d = (exports, definition) => {
-/******/ 		for(var key in definition) {
-/******/ 			if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 			}
-/******/ 		}
-/******/ 	};
-/******/ })();
-/******/ 
-/******/ /* webpack/runtime/hasOwnProperty shorthand */
-/******/ (() => {
-/******/ 	__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ })();
 /******/ 
 /******/ /* webpack/runtime/compat */
