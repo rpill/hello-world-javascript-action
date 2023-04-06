@@ -1,7 +1,6 @@
-import path from 'path';
 import core from '@actions/core';
 import cleanStack from 'clean-stack';
-import { runTests } from 'tests.js';
+import { runTests } from './tests.js';
 
 core.exportVariable('COMPOSE_DOCKER_CLI_BUILD', 1);
 core.exportVariable('DOCKER_BUILDKIT', 1);
