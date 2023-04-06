@@ -7,6 +7,7 @@ core.exportVariable('DOCKER_BUILDKIT', 1);
 
 const mountPath = '/var/tmp';
 const projectName = core.getInput('project', { required: true });
+const verbose = core.getInput('verbose', { required: false });
 const projectPath = process.cwd();
 
 const params = {

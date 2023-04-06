@@ -4106,6 +4106,7 @@ _actions_core__WEBPACK_IMPORTED_MODULE_0__.exportVariable('DOCKER_BUILDKIT', 1);
 
 const mountPath = '/var/tmp';
 const projectName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('project', { required: true });
+const verbose = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('verbose', { required: false });
 const projectPath = process.cwd();
 
 const params = {
