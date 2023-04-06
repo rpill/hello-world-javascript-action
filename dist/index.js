@@ -2863,15 +2863,12 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 
-
 _actions_core__WEBPACK_IMPORTED_MODULE_1__.exportVariable('COMPOSE_DOCKER_CLI_BUILD', 1);
 _actions_core__WEBPACK_IMPORTED_MODULE_1__.exportVariable('DOCKER_BUILDKIT', 1);
 
 const mountPath = '/var/tmp';
 const projectName = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('project', { required: true });
 const projectPath = process.cwd();
-
-_actions_core__WEBPACK_IMPORTED_MODULE_1__.exportVariable('PWD', path__WEBPACK_IMPORTED_MODULE_0__.join(mountPath, 'source'));
 
 const params = {
   mountPath, projectPath, verbose,

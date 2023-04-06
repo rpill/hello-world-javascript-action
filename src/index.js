@@ -1,5 +1,4 @@
 import path from 'path';
-
 import core from '@actions/core';
 import cleanStack from 'clean-stack';
 import { runTests } from 'tests.js';
@@ -10,8 +9,6 @@ core.exportVariable('DOCKER_BUILDKIT', 1);
 const mountPath = '/var/tmp';
 const projectName = core.getInput('project', { required: true });
 const projectPath = process.cwd();
-
-core.exportVariable('PWD', path.join(mountPath, 'source'));
 
 const params = {
   mountPath, projectPath, verbose,
