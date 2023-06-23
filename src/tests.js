@@ -2,6 +2,29 @@ import path from 'path';
 import core from '@actions/core';
 import io from '@actions/io';
 import exec from '@actions/exec';
+import artifact from '@actions/artifact';
+import glob from '@actions/glob';
+
+const uploadArtifacts = async (outputsPath) => {
+  if (!fs.existsSync(outputsPath)) {
+    return;
+  }
+
+  const outputsStats = fs.statSync(outputsPath);
+  if (!outputsStats.isDirectory()) {
+    return;
+  }
+
+  const globber = await glob.create(`${outputsPath}/**`);
+  const filepaths = await globber.glob();
+
+  if (filepaths.length === 0) {
+    return;
+  }
+
+  const artifactClient = artifact.create();
+  await artifactClient.uploadArtifact('outputs', filepaths, outputsPath)
+}
 
 const prepareProject = async (options) => {
   const {
@@ -34,6 +57,7 @@ export const runTests = async (params) => {
   const { mountPath } = params;
   const projectSourcePath = path.join(mountPath, 'source');
   const projectCodePath = path.join(projectSourcePath, 'code');
+  const outputsPath = path.join(projectSourcePath, 'outputs');
 
   const options = {
     ...params,
@@ -43,4 +67,5 @@ export const runTests = async (params) => {
 
   await core.group('Preparing', () => prepareProject(options));
   await core.group('Tests', () => checkProject(options));
+  await core.group('Upload artifacts', () => uploadArtifacts(outputsPath));
 };
