@@ -14099,12 +14099,14 @@ __webpack_async_result__();
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "c": () => (/* binding */ runTests)
 /* harmony export */ });
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1017);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(2186);
-/* harmony import */ var _actions_io__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(7436);
-/* harmony import */ var _actions_exec__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(1514);
-/* harmony import */ var _actions_artifact__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(2605);
-/* harmony import */ var _actions_glob__WEBPACK_IMPORTED_MODULE_5__ = __nccwpck_require__(8090);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(7147);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(1017);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2186);
+/* harmony import */ var _actions_io__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(7436);
+/* harmony import */ var _actions_exec__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(1514);
+/* harmony import */ var _actions_artifact__WEBPACK_IMPORTED_MODULE_5__ = __nccwpck_require__(2605);
+/* harmony import */ var _actions_glob__WEBPACK_IMPORTED_MODULE_6__ = __nccwpck_require__(8090);
+
 
 
 
@@ -14113,23 +14115,23 @@ __webpack_async_result__();
 
 
 const uploadArtifacts = async (outputsPath) => {
-  if (!fs.existsSync(outputsPath)) {
+  if (!fs__WEBPACK_IMPORTED_MODULE_0__.existsSync(outputsPath)) {
     return;
   }
 
-  const outputsStats = fs.statSync(outputsPath);
+  const outputsStats = fs__WEBPACK_IMPORTED_MODULE_0__.statSync(outputsPath);
   if (!outputsStats.isDirectory()) {
     return;
   }
 
-  const globber = await _actions_glob__WEBPACK_IMPORTED_MODULE_5__.create(`${outputsPath}/**`);
+  const globber = await _actions_glob__WEBPACK_IMPORTED_MODULE_6__.create(`${outputsPath}/**`);
   const filepaths = await globber.glob();
 
   if (filepaths.length === 0) {
     return;
   }
 
-  const artifactClient = _actions_artifact__WEBPACK_IMPORTED_MODULE_4__.create();
+  const artifactClient = _actions_artifact__WEBPACK_IMPORTED_MODULE_5__.create();
   await artifactClient.uploadArtifact('outputs', filepaths, outputsPath)
 }
 
@@ -14144,27 +14146,27 @@ const prepareProject = async (options) => {
   const cmdOptions = { silent: !verbose };
 
   const projectImageName = `rpill123/docker-tests-app:latest`;
-  await _actions_io__WEBPACK_IMPORTED_MODULE_2__.mkdirP(projectSourcePath);
+  await _actions_io__WEBPACK_IMPORTED_MODULE_3__.mkdirP(projectSourcePath);
   const pullCmd = `docker pull ${projectImageName}"`;
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_3__.exec(pullCmd, null, cmdOptions);
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec(pullCmd, null, cmdOptions);
   const copyCmd = `docker run -v ${mountPath}:/mnt ${projectImageName} bash -c "cp -r /project/. /mnt/source && rm -rf /mnt/source/code"`;
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_3__.exec(copyCmd, null, cmdOptions);
-  await _actions_io__WEBPACK_IMPORTED_MODULE_2__.mkdirP(projectCodePath);
-  await _actions_io__WEBPACK_IMPORTED_MODULE_2__.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_3__.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec(copyCmd, null, cmdOptions);
+  await _actions_io__WEBPACK_IMPORTED_MODULE_3__.mkdirP(projectCodePath);
+  await _actions_io__WEBPACK_IMPORTED_MODULE_3__.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
 const checkProject = async ({ projectSourcePath }) => {
   const options = { cwd: projectSourcePath };
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_3__.exec('docker-compose', ['run', 'app', 'make', 'setup'], options);
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_3__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], options);
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup'], options);
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], options);
 };
 
 const runTests = async (params) => {
   const { mountPath } = params;
-  const projectSourcePath = path__WEBPACK_IMPORTED_MODULE_0__.join(mountPath, 'source');
-  const projectCodePath = path__WEBPACK_IMPORTED_MODULE_0__.join(projectSourcePath, 'code');
-  const outputsPath = path__WEBPACK_IMPORTED_MODULE_0__.join(projectSourcePath, 'outputs');
+  const projectSourcePath = path__WEBPACK_IMPORTED_MODULE_1__.join(mountPath, 'source');
+  const projectCodePath = path__WEBPACK_IMPORTED_MODULE_1__.join(projectSourcePath, 'code');
+  const outputsPath = path__WEBPACK_IMPORTED_MODULE_1__.join(projectSourcePath, 'outputs');
 
   const options = {
     ...params,
@@ -14172,9 +14174,9 @@ const runTests = async (params) => {
     projectCodePath,
   };
 
-  await _actions_core__WEBPACK_IMPORTED_MODULE_1__.group('Preparing', () => prepareProject(options));
-  await _actions_core__WEBPACK_IMPORTED_MODULE_1__.group('Tests', () => checkProject(options));
-  await _actions_core__WEBPACK_IMPORTED_MODULE_1__.group('Upload artifacts', () => uploadArtifacts(outputsPath));
+  await _actions_core__WEBPACK_IMPORTED_MODULE_2__.group('Preparing', () => prepareProject(options));
+  await _actions_core__WEBPACK_IMPORTED_MODULE_2__.group('Tests', () => checkProject(options));
+  await _actions_core__WEBPACK_IMPORTED_MODULE_2__.group('Upload artifacts', () => uploadArtifacts(outputsPath));
 };
 
 /***/ })

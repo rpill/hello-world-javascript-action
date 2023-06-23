@@ -1,3 +1,4 @@
+import fs from 'fs';
 import path from 'path';
 import core from '@actions/core';
 import io from '@actions/io';
