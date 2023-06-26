@@ -1,25 +1,79 @@
+import fs from 'fs';
+import path from 'path';
 import core from '@actions/core';
-import cleanStack from 'clean-stack';
-import { runTests } from './tests.js';
+import io from '@actions/io';
+import exec from '@actions/exec';
+import artifact from '@actions/artifact';
+import glob from '@actions/glob';
 
-core.exportVariable('COMPOSE_DOCKER_CLI_BUILD', 1);
-core.exportVariable('DOCKER_BUILDKIT', 1);
+const uploadArtifacts = async (outputsPath) => {
+  if (!fs.existsSync(outputsPath)) {
+    return;
+  }
 
-const mountPath = '/var/tmp';
-const projectName = core.getInput('project', { required: true });
-const verbose = core.getInput('verbose', { required: false });
-const projectPath = process.cwd();
+  const outputsStats = fs.statSync(outputsPath);
+  if (!outputsStats.isDirectory()) {
+    return;
+  }
 
-const params = {
-  mountPath, projectPath, verbose,
+  const globber = await glob.create(`${outputsPath}/**`);
+  const filepaths = await globber.glob();
+
+  if (filepaths.length === 0) {
+    return;
+  }
+
+  const artifactClient = artifact.create();
+  await artifactClient.uploadArtifact('outputs', filepaths, outputsPath)
+}
+
+const prepareProject = async (options) => {
+  const {
+    projectCodePath,
+    projectPath,
+    projectSourcePath,
+    mountPath,
+    verbose,
+  } = options;
+  const cmdOptions = { silent: !verbose };
+
+  const projectImageName = `rpill123/docker-tests-app:latest`;
+  await io.mkdirP(projectSourcePath);
+  const pullCmd = `docker pull ${projectImageName}"`;
+  await exec.exec(pullCmd, null, cmdOptions);
+  const copyCmd = `docker run -v ${mountPath}:/mnt ${projectImageName} bash -c "cp -r /project/. /mnt/source && rm -rf /mnt/source/code"`;
+  await exec.exec(copyCmd, null, cmdOptions);
+  await io.mkdirP(projectCodePath);
+  await io.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
+  await exec.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
-try {
-  await runTests(params);
-} catch (e) {
-  core.error('Исправьте ошибки');
-  if (!verbose) {
-    e.stack = cleanStack(e.stack);
-  }
-  throw e;
-}
+const checkProject = async ({ projectSourcePath }) => {
+  const options = { cwd: projectSourcePath };
+  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup'], options);
+  await exec.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], options);
+};
+
+export const runTests = async (params) => {
+  const { mountPath } = params;
+  const projectSourcePath = path.join(mountPath, 'source');
+  const projectCodePath = path.join(projectSourcePath, 'code');
+  const outputsPath = path.join(projectSourcePath, 'outputs');
+
+  const options = {
+    ...params,
+    projectSourcePath,
+    projectCodePath,
+  };
+
+  await core.group('Preparing', () => prepareProject(options));
+  await core.group('Tests', () => checkProject(options));
+  await core.group('Upload artifacts', () => uploadArtifacts(outputsPath));
+};
+
+export const runUpload = async (params) => {
+  const { mountPath } = params;
+  const outputsPath = path.join(mountPath, 'source', 'outputs');
+
+  await core.group('Upload artifacts', () => uploadArtifacts(outputsPath));
+};

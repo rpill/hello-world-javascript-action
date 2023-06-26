@@ -5,7 +5,9 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "build": "ncc build src/index.js"
+    "build-run-tests": "ncc build bin/run-tests.js -o dist/run-tests",
+    "build-run-upload": "ncc build bin/run-upload.js -o dist/run-upload",
+    "build": "npm run build-run-tests && npm run build-run-upload"
   },
   "repository": {
     "type": "git",

@@ -13968,6 +13968,43 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 
 /***/ }),
 
+/***/ 96:
+/***/ ((__webpack_module__, __unused_webpack___webpack_exports__, __nccwpck_require__) => {
+
+__nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
+/* harmony import */ var clean_stack__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3938);
+/* harmony import */ var _src_index_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(7633);
+
+
+
+
+_actions_core__WEBPACK_IMPORTED_MODULE_0__.exportVariable('COMPOSE_DOCKER_CLI_BUILD', 1);
+_actions_core__WEBPACK_IMPORTED_MODULE_0__.exportVariable('DOCKER_BUILDKIT', 1);
+
+const mountPath = '/var/tmp';
+const projectName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('project', { required: true });
+const verbose = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('verbose', { required: false });
+const projectPath = process.cwd();
+
+const params = {
+  mountPath, projectPath, verbose,
+};
+
+try {
+  await (0,_src_index_js__WEBPACK_IMPORTED_MODULE_2__/* .runTests */ .c)(params);
+} catch (e) {
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.error('Исправьте ошибки');
+  if (!verbose) {
+    e.stack = (0,clean_stack__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)(e.stack);
+  }
+  throw e;
+}
+__webpack_async_result__();
+} catch(e) { __webpack_async_result__(e); } }, 1);
+
+/***/ }),
+
 /***/ 3938:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
@@ -14057,48 +14094,12 @@ function cleanStack(stack, {pretty = false, basePath, pathFilter} = {}) {
 /***/ }),
 
 /***/ 7633:
-/***/ ((__webpack_module__, __unused_webpack___webpack_exports__, __nccwpck_require__) => {
-
-__nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
-/* harmony import */ var clean_stack__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3938);
-/* harmony import */ var _tests_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2546);
-
-
-
-
-_actions_core__WEBPACK_IMPORTED_MODULE_0__.exportVariable('COMPOSE_DOCKER_CLI_BUILD', 1);
-_actions_core__WEBPACK_IMPORTED_MODULE_0__.exportVariable('DOCKER_BUILDKIT', 1);
-
-const mountPath = '/var/tmp';
-const projectName = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('project', { required: true });
-const verbose = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('verbose', { required: false });
-const projectPath = process.cwd();
-
-const params = {
-  mountPath, projectPath, verbose,
-};
-
-try {
-  await (0,_tests_js__WEBPACK_IMPORTED_MODULE_2__/* .runTests */ .c)(params);
-} catch (e) {
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.error('Исправьте ошибки');
-  if (!verbose) {
-    e.stack = (0,clean_stack__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)(e.stack);
-  }
-  throw e;
-}
-__webpack_async_result__();
-} catch(e) { __webpack_async_result__(e); } }, 1);
-
-/***/ }),
-
-/***/ 2546:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "c": () => (/* binding */ runTests)
 /* harmony export */ });
+/* unused harmony export runUpload */
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(7147);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(1017);
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2186);
@@ -14177,6 +14178,13 @@ const runTests = async (params) => {
   await _actions_core__WEBPACK_IMPORTED_MODULE_2__.group('Preparing', () => prepareProject(options));
   await _actions_core__WEBPACK_IMPORTED_MODULE_2__.group('Tests', () => checkProject(options));
   await _actions_core__WEBPACK_IMPORTED_MODULE_2__.group('Upload artifacts', () => uploadArtifacts(outputsPath));
+};
+
+const runUpload = async (params) => {
+  const { mountPath } = params;
+  const outputsPath = path.join(mountPath, 'source', 'outputs');
+
+  await core.group('Upload artifacts', () => uploadArtifacts(outputsPath));
 };
 
 /***/ })
@@ -14309,6 +14317,6 @@ const runTests = async (params) => {
 /******/ // startup
 /******/ // Load entry module and return exports
 /******/ // This entry module used 'module' so it can't be inlined
-/******/ var __webpack_exports__ = __nccwpck_require__(7633);
+/******/ var __webpack_exports__ = __nccwpck_require__(96);
 /******/ __webpack_exports__ = await __webpack_exports__;
 /******/ 

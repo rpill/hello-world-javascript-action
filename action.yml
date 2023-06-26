@@ -10,4 +10,5 @@ inputs:
     default: false
 runs:
   using: 'node16'
-  main: 'dist/index.js'
+  main: 'dist/run-tests/index.js'
+  main: 'dist/run-upload/index.js'
