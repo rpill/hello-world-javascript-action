@@ -11,7 +11,7 @@ const verbose = core.getInput('verbose', { required: false });
 const projectPath = process.cwd();
 
 const params = {
-  mountPath, projectPath, verbose,
+  mountPath, projectPath, verbose, projectName
 };
 
 try {

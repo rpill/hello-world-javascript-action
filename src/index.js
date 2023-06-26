@@ -29,6 +29,7 @@ const uploadArtifacts = async (outputsPath) => {
 
 const prepareProject = async (options) => {
   const {
+    projectName,
     projectCodePath,
     projectPath,
     projectSourcePath,
@@ -50,7 +51,7 @@ const prepareProject = async (options) => {
 
 const checkProject = async ({ projectSourcePath }) => {
   const options = { cwd: projectSourcePath };
-  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup'], options);
+  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], options);
   await exec.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], options);
 };
 
