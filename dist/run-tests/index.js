@@ -14138,7 +14138,6 @@ const uploadArtifacts = async (outputsPath) => {
 
 const prepareProject = async (options) => {
   const {
-    projectName,
     projectCodePath,
     projectPath,
     projectSourcePath,
@@ -14158,7 +14157,7 @@ const prepareProject = async (options) => {
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
-const checkProject = async ({ projectSourcePath }) => {
+const checkProject = async ({ projectName, projectSourcePath }) => {
   const options = { cwd: projectSourcePath };
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], options);
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], options);
