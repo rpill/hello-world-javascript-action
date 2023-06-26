@@ -13988,7 +13988,7 @@ const verbose = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('verbose', {
 const projectPath = process.cwd();
 
 const params = {
-  mountPath, projectPath, verbose,
+  mountPath, projectPath, verbose, projectName
 };
 
 try {
@@ -14138,6 +14138,7 @@ const uploadArtifacts = async (outputsPath) => {
 
 const prepareProject = async (options) => {
   const {
+    projectName,
     projectCodePath,
     projectPath,
     projectSourcePath,
@@ -14159,7 +14160,7 @@ const prepareProject = async (options) => {
 
 const checkProject = async ({ projectSourcePath }) => {
   const options = { cwd: projectSourcePath };
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup'], options);
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], options);
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], options);
 };
 
