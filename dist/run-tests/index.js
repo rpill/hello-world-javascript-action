@@ -13973,7 +13973,7 @@ module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("zlib");
 
 __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
 /* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
-/* harmony import */ var clean_stack__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(3938);
+/* harmony import */ var clean_stack__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(4549);
 /* harmony import */ var _src_index_js__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(7633);
 
 
@@ -13994,9 +13994,10 @@ const params = {
 try {
   await (0,_src_index_js__WEBPACK_IMPORTED_MODULE_2__/* .runTests */ .c)(params);
 } catch (e) {
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.error('Исправьте ошибки');
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.error('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
   if (!verbose) {
-    e.stack = (0,clean_stack__WEBPACK_IMPORTED_MODULE_1__/* ["default"] */ .Z)(e.stack);
+    process.exit(1);
+    // e.stack = cleanStack(e.stack);
   }
   throw e;
 }
@@ -14005,36 +14006,20 @@ __webpack_async_result__();
 
 /***/ }),
 
-/***/ 3938:
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
+/***/ 4549:
+/***/ (() => {
 
 
-// EXPORTS
-__nccwpck_require__.d(__webpack_exports__, {
-  "Z": () => (/* binding */ cleanStack)
-});
-
-;// CONCATENATED MODULE: ./node_modules/escape-string-regexp/index.js
-function escapeStringRegexp(string) {
-	if (typeof string !== 'string') {
-		throw new TypeError('Expected a string');
-	}
-
-	// Escape characters with special meaning either inside or outside character sets.
-	// Use a simple backslash escape when it’s always valid, and a `\xnn` escape when the simpler form would be disallowed by Unicode patterns’ stricter grammar.
-	return string
-		.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
-		.replace(/-/g, '\\x2d');
-}
+// UNUSED EXPORTS: default
 
 ;// CONCATENATED MODULE: external "node:os"
 const external_node_os_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:os");
 ;// CONCATENATED MODULE: ./node_modules/clean-stack/home-directory.js
 
 
-const getHomeDirectory = () => external_node_os_namespaceObject.homedir().replace(/\\/g, '/');
+const home_directory_getHomeDirectory = () => os.homedir().replace(/\\/g, '/');
 
-/* harmony default export */ const home_directory = (getHomeDirectory);
+/* harmony default export */ const home_directory = ((/* unused pure expression or super */ null && (home_directory_getHomeDirectory)));
 
 ;// CONCATENATED MODULE: ./node_modules/clean-stack/index.js
 
@@ -14045,7 +14030,7 @@ const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*no
 
 function cleanStack(stack, {pretty = false, basePath, pathFilter} = {}) {
 	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
-	const homeDirectory = pretty ? home_directory() : '';
+	const homeDirectory = pretty ? getHomeDirectory() : '';
 
 	if (typeof stack !== 'string') {
 		return undefined;
