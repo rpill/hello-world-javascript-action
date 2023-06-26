@@ -11,4 +11,4 @@ inputs:
 runs:
   using: 'node16'
   main: 'dist/run-tests/index.js'
-  main: 'dist/run-upload/index.js'
+  post: 'dist/run-upload/index.js'
