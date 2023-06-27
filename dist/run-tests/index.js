@@ -13994,12 +13994,11 @@ const params = {
 try {
   await (0,_src_index_js__WEBPACK_IMPORTED_MODULE_2__/* .runTests */ .c)(params);
 } catch (e) {
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.error('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
-  if (!verbose) {
-    process.exit(1);
+  _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  if (verbose) {
     // e.stack = cleanStack(e.stack);
+    throw e;
   }
-  throw e;
 }
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
