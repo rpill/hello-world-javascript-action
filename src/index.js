@@ -29,6 +29,7 @@ const uploadArtifacts = async (outputsPath) => {
 
 const prepareProject = async (options) => {
   const {
+    projectName,
     projectCodePath,
     projectPath,
     projectSourcePath,
@@ -46,16 +47,14 @@ const prepareProject = async (options) => {
   await io.mkdirP(projectCodePath);
   await io.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
   await exec.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
+  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, cwd: projectSourcePath });
 };
 
 const checkProject = async (options) => {
   const {
-    projectName,
     projectSourcePath,
-    verbose,
   } = options;
   const cmdOptions = { cwd: projectSourcePath };
-  await exec.exec('docker-compose', ['--progress', 'quiet', 'run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], cmdOptions);
   await exec.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], cmdOptions);
 };
 
