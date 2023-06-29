@@ -55,7 +55,7 @@ const checkProject = async (options) => {
     verbose,
   } = options;
   const cmdOptions = { cwd: projectSourcePath };
-  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, silent: !verbose });
+  await exec.exec('docker-compose', ['--progress', 'quiet', 'run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], cmdOptions);
   await exec.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], cmdOptions);
 };
 

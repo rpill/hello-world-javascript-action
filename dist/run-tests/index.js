@@ -14152,7 +14152,7 @@ const checkProject = async (options) => {
     verbose,
   } = options;
   const cmdOptions = { cwd: projectSourcePath };
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, silent: !verbose });
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['--progress', 'quiet', 'run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], cmdOptions);
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], cmdOptions);
 };
 
