@@ -48,10 +48,15 @@ const prepareProject = async (options) => {
   await exec.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
-const checkProject = async ({ projectName, projectSourcePath }) => {
-  const options = { cwd: projectSourcePath };
-  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], options);
-  await exec.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], options);
+const checkProject = async (options) => {
+  const {
+    projectName,
+    projectSourcePath,
+    verbose,
+  } = options;
+  const cmdOptions = { cwd: projectSourcePath };
+  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, silent: !verbose });
+  await exec.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], cmdOptions);
 };
 
 export const runTests = async (params) => {

@@ -17,12 +17,13 @@ const params = {
 try {
   await runTests(params);
 } catch (e) {
-  // core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
   console.log("\x1b[1;31m%s\x1b[0m", 'Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
-  console.log = () => { }
-  process.exit(1);
+
   if (verbose) {
     // e.stack = cleanStack(e.stack);
     throw e;
   }
+  // core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  console.log = () => { }
+  process.exit(1);
 }

@@ -13994,14 +13994,15 @@ const params = {
 try {
   await (0,_src_index_js__WEBPACK_IMPORTED_MODULE_2__/* .runTests */ .c)(params);
 } catch (e) {
-  // core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
   console.log("\x1b[1;31m%s\x1b[0m", 'Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
-  console.log = () => { }
-  process.exit(1);
+
   if (verbose) {
     // e.stack = cleanStack(e.stack);
     throw e;
   }
+  // core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  console.log = () => { }
+  process.exit(1);
 }
 __webpack_async_result__();
 } catch(e) { __webpack_async_result__(e); } }, 1);
@@ -14144,10 +14145,15 @@ const prepareProject = async (options) => {
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
-const checkProject = async ({ projectName, projectSourcePath }) => {
-  const options = { cwd: projectSourcePath };
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], options);
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], options);
+const checkProject = async (options) => {
+  const {
+    projectName,
+    projectSourcePath,
+    verbose,
+  } = options;
+  const cmdOptions = { cwd: projectSourcePath };
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, silent: !verbose });
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], cmdOptions);
 };
 
 const runTests = async (params) => {
