@@ -17,7 +17,10 @@ const params = {
 try {
   await runTests(params);
 } catch (e) {
-  core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  // core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  console.error('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  console.log = () => { }
+  process.exit(1);
   if (verbose) {
     // e.stack = cleanStack(e.stack);
     throw e;

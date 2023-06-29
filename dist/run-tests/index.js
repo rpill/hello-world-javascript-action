@@ -13994,7 +13994,10 @@ const params = {
 try {
   await (0,_src_index_js__WEBPACK_IMPORTED_MODULE_2__/* .runTests */ .c)(params);
 } catch (e) {
-  _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  // core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  console.error('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  console.log = () => { }
+  process.exit(1);
   if (verbose) {
     // e.stack = cleanStack(e.stack);
     throw e;
