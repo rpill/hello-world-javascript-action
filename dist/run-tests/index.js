@@ -13994,7 +13994,7 @@ const params = {
 try {
   await (0,_src_index_js__WEBPACK_IMPORTED_MODULE_2__/* .runTests */ .c)(params);
 } catch (e) {
-  console.log("\x1b[1;31m%s\x1b[0m", 'Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  console.log('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
 
   if (verbose) {
     // e.stack = cleanStack(e.stack);
