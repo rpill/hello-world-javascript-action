@@ -2,6 +2,11 @@ import core from '@actions/core';
 import cleanStack from 'clean-stack';
 import { runTests } from '../src/index.js';
 
+process.on('uncaughtException', (error) => {
+  console.log('-------------------------saddsadsa---------------')
+  process.exit(1);
+});
+
 core.exportVariable('COMPOSE_DOCKER_CLI_BUILD', 1);
 core.exportVariable('DOCKER_BUILDKIT', 1);
 
@@ -17,7 +22,7 @@ const params = {
 try {
   await runTests(params);
 } catch (e) {
-  console.log('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
+  console.log("\x1b[1;31m%s\x1b[0m", 'Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
 
   if (verbose) {
     // e.stack = cleanStack(e.stack);
