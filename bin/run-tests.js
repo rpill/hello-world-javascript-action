@@ -3,7 +3,6 @@ import cleanStack from 'clean-stack';
 import { runTests } from '../src/index.js';
 
 process.on('uncaughtException', (error) => {
-  console.log('-------------------------saddsadsa---------------')
   process.exit(1);
 });
 
@@ -28,7 +27,5 @@ try {
     // e.stack = cleanStack(e.stack);
     throw e;
   }
-  // core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
-  console.log = () => { }
   process.exit(1);
 }

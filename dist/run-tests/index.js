@@ -13980,7 +13980,6 @@ __nccwpck_require__.a(__webpack_module__, async (__webpack_handle_async_dependen
 
 
 process.on('uncaughtException', (error) => {
-  console.log('-------------------------saddsadsa---------------')
   process.exit(1);
 });
 
@@ -14005,8 +14004,6 @@ try {
     // e.stack = cleanStack(e.stack);
     throw e;
   }
-  // core.setFailed('Тесты завершились с ошибкой. Откройте выше вкладку Tests и исправьте ошибки.');
-  console.log = () => { }
   process.exit(1);
 }
 __webpack_async_result__();
@@ -14140,7 +14137,7 @@ const prepareProject = async (options) => {
   } = options;
   const cmdOptions = { silent: !verbose };
 
-  const projectImageName = `rpill123/docker-tests-app:latest`;
+  const projectImageName = `practicumweb/gha-verstka-checker:latest`;
   await _actions_io__WEBPACK_IMPORTED_MODULE_3__.mkdirP(projectSourcePath);
   const pullCmd = `docker pull ${projectImageName}"`;
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec(pullCmd, null, cmdOptions);

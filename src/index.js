@@ -38,7 +38,7 @@ const prepareProject = async (options) => {
   } = options;
   const cmdOptions = { silent: !verbose };
 
-  const projectImageName = `rpill123/docker-tests-app:latest`;
+  const projectImageName = `practicumweb/gha-verstka-checker:latest`;
   await io.mkdirP(projectSourcePath);
   const pullCmd = `docker pull ${projectImageName}"`;
   await exec.exec(pullCmd, null, cmdOptions);
