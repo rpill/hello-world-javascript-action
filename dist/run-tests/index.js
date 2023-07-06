@@ -14137,10 +14137,6 @@ const prepareProject = async (options) => {
   } = options;
   const cmdOptions = {
     silent: !verbose,
-    listeners: {
-      stdout: () => { },
-      stderr: () => { },
-    },
   };
 
   const projectImageName = `practicumweb/gha-verstka-checker:latest`;
@@ -14151,7 +14147,7 @@ const prepareProject = async (options) => {
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec(copyCmd, null, cmdOptions);
   await _actions_io__WEBPACK_IMPORTED_MODULE_3__.mkdirP(projectCodePath);
   await _actions_io__WEBPACK_IMPORTED_MODULE_3__.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker', ['build', '--cache-from', '--quiet', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, cwd: projectSourcePath });
 };
 

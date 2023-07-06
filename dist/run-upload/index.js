@@ -14143,10 +14143,6 @@ const prepareProject = async (options) => {
   } = options;
   const cmdOptions = {
     silent: !verbose,
-    listeners: {
-      stdout: () => { },
-      stderr: () => { },
-    },
   };
 
   const projectImageName = `practicumweb/gha-verstka-checker:latest`;
@@ -14157,7 +14153,7 @@ const prepareProject = async (options) => {
   await exec.exec(copyCmd, null, cmdOptions);
   await io.mkdirP(projectCodePath);
   await io.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
-  await exec.exec('docker', ['build', '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
+  await exec.exec('docker', ['build', '--cache-from', '--quiet', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
   await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, cwd: projectSourcePath });
 };
 
