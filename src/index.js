@@ -48,8 +48,8 @@ const prepareProject = async (options) => {
   await exec.exec(copyCmd, null, cmdOptions);
   await io.mkdirP(projectCodePath);
   await io.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
-  await exec.exec('docker', ['build', '--cache-from', '--quiet', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
-  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, cwd: projectSourcePath });
+  await exec.exec('docker', ['build', '--cache-from', projectImageName, '.', '>', '/dev/null', '2>&1'], { ...cmdOptions, cwd: projectSourcePath });
+  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`, '>', '/dev/null', '2>&1'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
 const checkProject = async (options) => {
