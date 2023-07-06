@@ -14141,7 +14141,13 @@ const prepareProject = async (options) => {
     mountPath,
     verbose,
   } = options;
-  const cmdOptions = { silent: !verbose };
+  const cmdOptions = {
+    silent: !verbose,
+    listeners: {
+      stdout: () => { },
+      stderr: () => { },
+    },
+  };
 
   const projectImageName = `practicumweb/gha-verstka-checker:latest`;
   await io.mkdirP(projectSourcePath);
