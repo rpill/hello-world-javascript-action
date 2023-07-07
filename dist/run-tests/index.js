@@ -14146,7 +14146,7 @@ const prepareProject = async (options) => {
   await _actions_io__WEBPACK_IMPORTED_MODULE_3__.mkdirP(projectCodePath);
   await _actions_io__WEBPACK_IMPORTED_MODULE_3__.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker', ['build', '-q', '-t', projectImageName, '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`, '>', '/dev/null'], { ...cmdOptions, cwd: projectSourcePath });
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`, '>', '/dev/null', '2>&1'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
 const checkProject = async (options) => {
