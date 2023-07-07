@@ -14154,7 +14154,7 @@ const checkProject = async (options) => {
     projectSourcePath,
   } = options;
   const cmdOptions = { cwd: projectSourcePath };
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], cmdOptions);
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit', '--no-log-prefix'], cmdOptions);
 };
 
 const runTests = async (params) => {

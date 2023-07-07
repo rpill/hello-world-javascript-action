@@ -55,7 +55,7 @@ const checkProject = async (options) => {
     projectSourcePath,
   } = options;
   const cmdOptions = { cwd: projectSourcePath };
-  await exec.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit'], cmdOptions);
+  await exec.exec('docker-compose', ['-f', 'docker-compose.yml', 'up', '--abort-on-container-exit', '--no-log-prefix'], cmdOptions);
 };
 
 export const runTests = async (params) => {
