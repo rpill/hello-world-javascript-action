@@ -14145,14 +14145,14 @@ const prepareProject = async (options) => {
 
   const projectImageName = `practicumweb/gha-verstka-checker:latest`;
   await io.mkdirP(projectSourcePath);
-  const pullCmd = `docker pull ${projectImageName}"`;
+  const pullCmd = `docker pull -q ${projectImageName}"`;
   await exec.exec(pullCmd, null, cmdOptions);
   const copyCmd = `docker run -v ${mountPath}:/mnt ${projectImageName} bash -c "cp -r /project/. /mnt/source && rm -rf /mnt/source/code"`;
   await exec.exec(copyCmd, null, cmdOptions);
   await io.mkdirP(projectCodePath);
   await io.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
-  await exec.exec('docker', ['build', '--quiet', '-t', projectImageName, '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
-  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, cwd: projectSourcePath });
+  await exec.exec('docker', ['build', '-q', '-t', projectImageName, '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
+  await exec.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`, '>', '/dev/null'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
 const checkProject = async (options) => {

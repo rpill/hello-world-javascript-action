@@ -14139,14 +14139,14 @@ const prepareProject = async (options) => {
 
   const projectImageName = `practicumweb/gha-verstka-checker:latest`;
   await _actions_io__WEBPACK_IMPORTED_MODULE_3__.mkdirP(projectSourcePath);
-  const pullCmd = `docker pull ${projectImageName}"`;
+  const pullCmd = `docker pull -q ${projectImageName}"`;
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec(pullCmd, null, cmdOptions);
   const copyCmd = `docker run -v ${mountPath}:/mnt ${projectImageName} bash -c "cp -r /project/. /mnt/source && rm -rf /mnt/source/code"`;
   await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec(copyCmd, null, cmdOptions);
   await _actions_io__WEBPACK_IMPORTED_MODULE_3__.mkdirP(projectCodePath);
   await _actions_io__WEBPACK_IMPORTED_MODULE_3__.cp(`${projectPath}/.`, projectCodePath, { recursive: true });
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker', ['build', '--quiet', '-t', projectImageName, '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
-  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`], { ...cmdOptions, cwd: projectSourcePath });
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker', ['build', '-q', '-t', projectImageName, '--cache-from', projectImageName, '.'], { ...cmdOptions, cwd: projectSourcePath });
+  await _actions_exec__WEBPACK_IMPORTED_MODULE_4__.exec('docker-compose', ['run', 'app', 'make', 'setup', `PROJECT_NAME=${projectName}`, '>', '/dev/null'], { ...cmdOptions, cwd: projectSourcePath });
 };
 
 const checkProject = async (options) => {
